@@ -1,0 +1,1 @@
+../adminer-4.2.2-en.php
