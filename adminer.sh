@@ -6,4 +6,4 @@ cd "$appDir/www";
 port="$PORT";
 if [ -z "$port" ]; then port="7777"; fi
 
-php -S "0.0.0.0:$port" & echo "Adminer server started.. PID: $!";
+php -S "0.0.0.0:$port" -d session.save_path=$PWD/sess & echo "Adminer server started.. PID: $!";
