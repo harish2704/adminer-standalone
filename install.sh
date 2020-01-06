@@ -1,11 +1,13 @@
 #!/usr/bin/env bash
 
 VER=4.7.5
-wget "https://github.com/vrana/adminer/releases/download/v4.7.5/adminer-${VER}.zip"
+wget "https://github.com/vrana/adminer/releases/download/v${VER}/adminer-${VER}.zip"
+# wget "http://127.0.0.1:8080/adminer-${VER}.zip"
+
 
 unzip "adminer-${VER}.zip"
 
-mv adminer-4.7.5 www
+mv adminer-${VER} www
 
 cat<<EOF > www/index.php
 <?php header("Location: adminer/plugin.php"); ?>
@@ -13,6 +15,13 @@ EOF
 
 # Install & setup FCSqliteConnectionWithoutCredentials plugin.
 cd www/plugins
-wget 'https://raw.githubusercontent.com/FrancoisCapon/LoginToASqlite3DatabaseWithoutCredentialsWithAdminer/master/fc-sqlite-connection-without-credentials.php'
-sed -i '/\$plugins = array(/a \\t\tnew FCSqliteConnectionWithoutCredentials,' ../adminer/plugin.php
+cat<<EOF > fc-sqlite-connection-without-credentials.php
+<?php
+class SqliteConnectionWithoutCredentials {
+    function login(\$login, \$password) {
+            return true;
+    }
+}
+EOF
+sed -i '/\$plugins = array(/a \\t\tnew SqliteConnectionWithoutCredentials,' ../adminer/plugin.php
 
