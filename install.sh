@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-VER=4.7.5
+VER=4.8.1
 wget "https://github.com/vrana/adminer/releases/download/v${VER}/adminer-${VER}.zip"
 # wget "http://127.0.0.1:8080/adminer-${VER}.zip"
 
