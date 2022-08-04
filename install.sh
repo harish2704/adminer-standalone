@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 
 VER=$(wget -q -O - https://api.github.com/repos/vrana/adminer/releases/latest | grep tag_name | awk -F '["v]' '{print $5}')
-wget "https://github.com/vrana/adminer/releases/download/v${VER}/adminer-${VER}.zip"
+echo "Latest version of adminer is $VER"
+zipUrl="https://github.com/vrana/adminer/releases/download/v${VER}/adminer-${VER}.zip"
+echo "Fetching $zipUrl"
+wget "$zipUrl"
 # wget "http://127.0.0.1:8080/adminer-${VER}.zip"
 
 
