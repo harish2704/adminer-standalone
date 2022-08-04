@@ -9,6 +9,7 @@ wget "$zipUrl"
 
 
 unzip "adminer-${VER}.zip"
+appdir="$PWD"
 
 mv adminer-${VER} www
 
@@ -27,6 +28,8 @@ class SqliteConnectionWithoutCredentials {
 }
 EOF
 sed -i '/\$plugins = array(/a \\t\tnew SqliteConnectionWithoutCredentials,' ../adminer/plugin.php
+
+cd "$appdir"
 
 echo Installing systemd service ...
 mkdir -p $HOME/.config/systemd/user
