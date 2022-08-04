@@ -25,3 +25,8 @@ class SqliteConnectionWithoutCredentials {
 EOF
 sed -i '/\$plugins = array(/a \\t\tnew SqliteConnectionWithoutCredentials,' ../adminer/plugin.php
 
+echo Installing systemd service ...
+mkdir -p $HOME/.config/systemd/user
+cp adminer.service $HOME/.config/systemd/user/
+echo Reloading systemd ...
+systemctl --user daemon-reload
