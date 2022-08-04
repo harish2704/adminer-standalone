@@ -1,0 +1,11 @@
+[Unit]
+Description=Adminer DBA
+
+[Service]
+Type=exec
+KillMode=process
+ExecStart=bash -c 'adminer.sh -f'
+Restart=on-failure
+
+[Install]
+WantedBy=default.target
