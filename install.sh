@@ -1,33 +1,44 @@
 #!/usr/bin/env bash
 
-VER=$(wget -q -O - https://api.github.com/repos/vrana/adminer/releases/latest | grep tag_name | awk -F '["v]' '{print $5}')
-echo "Latest version of adminer is $VER"
-zipUrl="https://github.com/vrana/adminer/releases/download/v${VER}/adminer-${VER}.zip"
-echo "Fetching $zipUrl"
-wget "$zipUrl"
-# wget "http://127.0.0.1:8080/adminer-${VER}.zip"
-
-
-unzip "adminer-${VER}.zip"
 appdir="$PWD"
 
-mv adminer-${VER} www
+git clone https://github.com/vrana/adminer.git ./www
+cd www
+git submodule update --init
 
-cat<<EOF > www/index.php
+cat<<EOF > index.php
 <?php header("Location: adminer/plugin.php"); ?>
 EOF
 
-# Install & setup FCSqliteConnectionWithoutCredentials plugin.
-cd www/plugins
-cat<<EOF > fc-sqlite-connection-without-credentials.php
+cat<<EOF > adminer/plugin.php
 <?php
+
 class SqliteConnectionWithoutCredentials {
     function login(\$login, \$password) {
             return true;
     }
 }
+
+function adminer_object() {
+	return new Adminer\Plugins(array(
+		new SqliteConnectionWithoutCredentials(),
+	));
+}
+
+function skip_sqlite_password()
+{
+	if (\$_SERVER["REQUEST_METHOD"] == "POST") {
+		if (isset(\$_POST['auth']['driver']) && \$_POST['auth']['driver'] === 'sqlite') {
+			if (isset(\$_POST['auth']['username'])) { \$_POST['auth']['username'] = ''; }
+			if (isset(\$_POST['auth']['password'])) { \$_POST['auth']['password'] = ''; }
+		}
+	}
+}
+
+skip_sqlite_password();
+
+include "./index.php";
 EOF
-sed -i '/\$plugins = array(/a \\t\tnew SqliteConnectionWithoutCredentials,' ../adminer/plugin.php
 
 cd "$appdir"
 
