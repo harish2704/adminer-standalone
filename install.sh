@@ -20,8 +20,10 @@ class SqliteConnectionWithoutCredentials {
 }
 
 function adminer_object() {
+	include_once( __DIR__ . '/../plugins/tables-filter.php');
 	return new Adminer\Plugins(array(
 		new SqliteConnectionWithoutCredentials(),
+		new AdminerTablesFilter(),
 	));
 }
 
