@@ -20,8 +20,22 @@ class SqliteConnectionWithoutCredentials {
 }
 
 function adminer_object() {
+	include_once( __DIR__ . '/../plugins/tables-filter.php');
+	include_once( __DIR__ . '/../plugins/dump-json.php');
+	include_once( __DIR__ . '/../plugins/dump-php.php');
+	include_once( __DIR__ . '/../plugins/dump-xml.php');
+	include_once( __DIR__ . '/../plugins/dump-date.php');
+	include_once( __DIR__ . '/../plugins/pretty-json-column.php');
+	include_once( __DIR__ . '/../plugins/json-column.php');
 	return new Adminer\Plugins(array(
 		new SqliteConnectionWithoutCredentials(),
+		new AdminerTablesFilter(),
+		new AdminerDumpJson(),
+		new AdminerDumpXml(),
+		new AdminerDumpPhp(),
+		new AdminerDumpDate(),
+		new AdminerJsonColumn(),
+		new AdminerPrettyJsonColumn()
 	));
 }
 
