@@ -8,10 +8,11 @@
 * @license https://www.gnu.org/licenses/gpl-2.0.html GNU General Public License, version 2 (one or other)
 */
 class AdminerFormatSql {
+	const DIST = "https://unpkg.com/sql-formatter@15.8.2/dist/";
 
 	function head() {
-		echo script_src("https://unpkg.com/sql-formatter@15.8.2/dist/sql-formatter.min.js");
-		echo script("addEventListener('DOMContentLoaded', function () {
+		echo Adminer\script_src(self::DIST . "sql-formatter.min.js");
+		echo Adminer\script("addEventListener('DOMContentLoaded', function () {
 	var textarea = qs('textarea[name=query]');
 	if (!textarea || typeof sqlFormatter == 'undefined') {
 		return;
@@ -28,6 +29,7 @@ class AdminerFormatSql {
 		}
 		try {
 			textarea.value = sqlFormatter.format(query);
+			fire(textarea, 'change'); // updates the JUSH highlighting
 		} catch (e) {
 			alert('SQL formatting failed: ' + e.message);
 		}
@@ -37,6 +39,11 @@ class AdminerFormatSql {
 	textarea.parentNode.insertBefore(button, textarea.nextSibling.nextSibling);
 });
 ");
+	}
+
+	function csp(&$csp) {
+		// source map referenced by the script, loaded by DevTools
+		$csp[0]["connect-src"] .= " " . self::DIST . "sql-formatter.min.cjs.map";
 	}
 
 }
