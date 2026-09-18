@@ -22,25 +22,35 @@ class SqliteConnectionWithoutCredentials {
 function adminer_object() {
 	include_once( __DIR__ . '/../plugins/tables-filter.php');
 	include_once( __DIR__ . '/../plugins/dump-json.php');
-	include_once( __DIR__ . '/../plugins/dump-php.php');
+	// include_once( __DIR__ . '/../plugins/dump-php.php');
 	include_once( __DIR__ . '/../plugins/dump-xml.php');
 	include_once( __DIR__ . '/../plugins/dump-date.php');
-	include_once( __DIR__ . '/../plugins/pretty-json-column.php');
-	include_once( __DIR__ . '/../plugins/json-column.php');
+	// include_once( __DIR__ . '/../plugins/pretty-json-column.php');
+	// include_once( __DIR__ . '/../plugins/json-column.php');
 	include_once( __DIR__ . '/../plugins/login-ssl.php');
+	include_once( __DIR__ . '/../../plugins/format-sql.php');
+	// include_once( __DIR__ . '/../../plugins/convention-foreign-keys.php');
+	include_once( __DIR__ . '/../../plugins/hidden-and-sticky-columns.php');
+	include_once( __DIR__ . '/../../plugins/hideableColumns.php');
+	include_once( __DIR__ . '/../../plugins/import-csv.php');
 	return new Adminer\Plugins(array(
 		new SqliteConnectionWithoutCredentials(),
 		new AdminerTablesFilter(),
 		new AdminerDumpJson(),
 		new AdminerDumpXml(),
-		new AdminerDumpPhp(),
+		// new AdminerDumpPhp(),
 		new AdminerDumpDate(),
-		new AdminerJsonColumn(),
+		// new AdminerJsonColumn(),
 		new AdminerLoginSsl([
 			'ca' => '/etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem',
 			"verify" => false,
 		]),
-		new AdminerPrettyJsonColumn()
+		new AdminerFormatSql(),
+		// new ConventionForeignKeys(),
+		new AdminerHiddenAndStickyColumns(),
+		new hideableColumns(),
+		new AdminerImportCsv(),
+		// new AdminerPrettyJsonColumn()
 	));
 }
 
