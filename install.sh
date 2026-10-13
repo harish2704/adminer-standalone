@@ -33,6 +33,7 @@ function adminer_object() {
 	include_once( __DIR__ . '/../../plugins/hidden-and-sticky-columns.php');
 	include_once( __DIR__ . '/../../plugins/hideableColumns.php');
 	include_once( __DIR__ . '/../../plugins/import-csv.php');
+	include_once( __DIR__ . '/../../plugins/AdminerJsonPreview.php');
 	return new Adminer\Plugins(array(
 		new SqliteConnectionWithoutCredentials(),
 		new AdminerTablesFilter(),
@@ -50,6 +51,7 @@ function adminer_object() {
 		new AdminerHiddenAndStickyColumns(),
 		new hideableColumns(),
 		new AdminerImportCsv(),
+		new AdminerJsonPreview(),
 		// new AdminerPrettyJsonColumn()
 	));
 }
